@@ -54,34 +54,34 @@ $("#play").click(function(e) {
         },
         {
           word: "dreckly",
-          hint: "I'll do it when I'm ready",
+          hint: "i'll do it when I'm ready",
         },
         {
           word: "mizzle",
-          hint: "Mist and drizzle",
+          hint: "mist and drizzle",
         },
         {
-          word: "boolean",
-          hint: "A data type that can haveone of two values, true or false.",
+          word: "my lover",
+          hint: "what the pasty lady calls you",
         },
         {
-          word: "conditional",
-          hint: "A statement that executes a block ofcode if a specified condition is true.",
+          word: "wasson",
+          hint: "what's going on",
         },
         {
-          word: "parameter",
-          hint: "A variable in a method definition.",
+          word: "ansum",
+          hint: "thats a proper ______ pasty",
         },
         {
-          word: "algorithm",
-          hint: "A step-by-step procedure or formula for solving a problem.",
+          word: "right on",
+          hint: "okay",
         },
         {
-          word: "debugging",
-          hint: "The process of finding and fixing errors in code.",
+          word: "up north",
+          hint: "above the tamar",
         },
         {
-          word: "syntax",
-          hint: "The rules that govern the structure of statements in a programming language.",
+          word: "pasty",
+          hint: "breakfast, lunch and dinner",
         },
       ];
