@@ -1,3 +1,12 @@
+
+window.onload = function () {
+  hangman(); 
+  };
+
+  function hangman() {
+    var modal = document.getElementsById("game-modal");
+  }
+
 const wordDisplay = 
     document.querySelector(".word-display");
 const keyboardDiv = 
@@ -68,6 +77,7 @@ const maxGuesses = 6;
 const gameTimeLimit = 30;
 
 const resetGame = () => {
+
   //Resetting all game variables and UI elements
   correctLetters = [];
   wrongGuessCount = 0;
@@ -112,6 +122,7 @@ const startTimer = () => {
     }
   }, 1000);
 };
+
 const gameOver = (isVictory) => {
   setTimeout(() => {
     clearInterval(timerInterval);
@@ -125,6 +136,7 @@ const gameOver = (isVictory) => {
     gameModal.classList.add("show");
   }, 300);
 };
+
 const initGame = (button, clickedLetter) => {
   if (currentWord.includes(clickedLetter)) {
     [...currentWord].forEach((letter, index) => {
@@ -140,40 +152,34 @@ const initGame = (button, clickedLetter) => {
     wrongGuessCount++;
     if (wrongGuessCount === 0) {
       hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173028/0.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png`;
     }
     if (wrongGuessCount === 1) {
       hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173033/1.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173033/1.png`;
     }
     if (wrongGuessCount === 2) {
       hangmanImage.src = 
       
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173038/2.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173038/2.png`;
     }
     if (wrongGuessCount === 3) {
       hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215172733/3.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215172733/3.png`;
     }
     if (wrongGuessCount == 4) {
       hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173815/4.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173815/4.png`;
     }
     if (wrongGuessCount === 5) {
       hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173859/5.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173859/5.png`;
     }
     if (wrongGuessCount === 6) {
       hangmanImage.src =
-      `https://media.geeksforgeeks.org/wp-content
-      /uploads/20240215173931/6.png`;
+      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173931/6.png`;
     }
+    
     // hangmanImage.src = 
     `images/hangman-${wrongGuessCount}.svg`;
   }

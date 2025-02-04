@@ -5,28 +5,38 @@
     <meta name="viewport" content="width=device-width, 
                                    initial-scale=1.0" />
     <title>Hangman Game</title>
-    <link rel="stylesheet" href="/style.css" />
-    <script src="/script.js" defer></script>
+    <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/script2.js" defer></script>
   </head>
 
   <body>
-    <div class="game-modal" id="over">
-      <div class="content">
-        <h4>Game Over!</h4>
-        <p>The correct word was: <b>rainbow</b></p>
-        <button class="play-again">Play Again</button>
+    <div class="modal" id="game-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">GAME OVER MAN GAME OVER MAN</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>the correct was : </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            
+          </div>
+        </div>
       </div>
     </div>
-
     <div class="container">
+      <h1>Hangman Game</h1>
+      <button class="btn play" type="button">Play</button>
       <div class="hangman-box">
         <img
           src=
-             "https://media.geeksforgeeks.org
-              /wp-content/uploads/20240215173028/0.png"
+             "https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png"
           alt="hangman-img"
         />
-        <h1>Hangman Game</h1>
+        
         <div class="timer">Time left:
           <span id="timer-display">3:00</span>
         </div>
