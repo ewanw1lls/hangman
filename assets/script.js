@@ -33,23 +33,19 @@ const codingQuiz = [
   },
   {
     word: "loop",
-    hint: "A programming structure that repeats a 
-    sequence of instructions until a specific condition is met.",
+    hint: "A programming structure that repeats a sequence of instructions until a specific condition is met.",
   },
   {
     word: "array",
-    hint: "A data structure that 
-    stores a collection of elements.",
+    hint: "A data structure that stores a collection of elements.",
   },
   {
     word: "boolean",
-    hint: "A data type that can have
-    one of two values, true or false.",
+    hint: "A data type that can haveone of two values, true or false.",
   },
   {
     word: "conditional",
-    hint: "A statement that executes a block of
-    code if a specified condition is true.",
+    hint: "A statement that executes a block ofcode if a specified condition is true.",
   },
   {
     word: "parameter",
@@ -57,18 +53,15 @@ const codingQuiz = [
   },
   {
     word: "algorithm",
-    hint: "A step-by-step procedure 
-    or formula for solving a problem.",
+    hint: "A step-by-step procedure or formula for solving a problem.",
   },
   {
     word: "debugging",
-    hint: "The process of finding and 
-    fixing errors in code.",
+    hint: "The process of finding and fixing errors in code.",
   },
   {
     word: "syntax",
-    hint: "The rules that govern the structure of
-    statements in a programming language.",
+    hint: "The rules that govern the structure of statements in a programming language.",
   },
 ];
 
@@ -179,7 +172,7 @@ const initGame = (button, clickedLetter) => {
       hangmanImage.src =
       `https://media.geeksforgeeks.org/wp-content/uploads/20240215173931/6.png`;
     }
-    
+
     // hangmanImage.src = 
     `images/hangman-${wrongGuessCount}.svg`;
   }

@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, 
-                                   initial-scale=1.0" />
-    <title>Hangman Game</title>
-    <link rel="stylesheet" href="assets/style.css" />
-    <script src="assets/script2.js" defer></script>
-  </head>
 
-  <body>
-    <div class="modal" id="game-modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">GAME OVER MAN GAME OVER MAN</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <p>the correct was : </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hangman Game</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+  <div class="modal" id="game-modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">GAME OVER MAN GAME OVER MAN</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>the correct was :</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
         </div>
       </div>
     </div>
-    <div class="container">
-      <h1>Hangman Game</h1>
-      <button class="btn play" type="button">Play</button>
-      <div class="hangman-box">
-        <img
-          src=
-             "https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png"
-          alt="hangman-img"
-        />
-        
-        <div class="timer">Time left:
-          <span id="timer-display">3:00</span>
-        </div>
-      </div>
-      <div class="game-box">
-        <ul class="word-display"></ul>
-        <h4 class="hint-text">
-          Hint:
-          <b></b>
-        </h4>
-        <h4 class="guesses-text">
-          Incorrect guesses:
-          <b>0 / 6</b>
-        </h4>
-        <div class="keyboard"></div>
+  </div>
+  <div class="container">
+    <h1>Hangman Game</h1>
+    <button class="play btn" id="play" type="button">Play</button>
+    <div class="hangman-box">
+      <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png" alt="hangman-img"/>
+
+      <div class="timer">
+        Time left:
+        <span id="timer-display">5:00</span>
       </div>
     </div>
-  </body>
+    <div class="game-box">
+
+
+      <ul class="word-display"></ul>
+
+
+      <h4 id="hint-text">
+        Hint:
+        <b></b>
+      </h4>
+      <h4 class="guesses-text">
+        Incorrect guesses:
+        <b>0 / 6</b>
+      </h4>
+      <div class="keyboard"></div>
+    </div>
+  </div>
+  <script src="assets/script2.js"></script>
+</body>
+
 </html>
