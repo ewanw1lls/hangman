@@ -1,200 +1,247 @@
-
-window.onload = function () {
-  hangman(); 
-  };
-
-  function hangman() {
-    var modal = document.getElementsById("game-modal");
-  }
-
-const wordDisplay = 
-    document.querySelector(".word-display");
-const keyboardDiv = 
-    document.querySelector(".keyboard");
-const hangmanImage = 
-    document.querySelector(".hangman-box img");
-const guessesText = 
-    document.querySelector(".guesses-text b");
-const gameModal = 
-    document.querySelector(".game-modal");
-const playAgainBtn = 
-    document.querySelector(".play-again");
-const timerDisplay = 
-    document.querySelector(".timer");
-
-const codingQuiz = [
-  {
-    word: "variable",
-    hint: "A placeholder for a value.",
-  },
-  {
-    word: "function",
-    hint: "A block of code that performs a specific task.",
-  },
-  {
-    word: "loop",
-    hint: "A programming structure that repeats a sequence of instructions until a specific condition is met.",
-  },
-  {
-    word: "array",
-    hint: "A data structure that stores a collection of elements.",
-  },
-  {
-    word: "boolean",
-    hint: "A data type that can haveone of two values, true or false.",
-  },
-  {
-    word: "conditional",
-    hint: "A statement that executes a block ofcode if a specified condition is true.",
-  },
-  {
-    word: "parameter",
-    hint: "A variable in a method definition.",
-  },
-  {
-    word: "algorithm",
-    hint: "A step-by-step procedure or formula for solving a problem.",
-  },
-  {
-    word: "debugging",
-    hint: "The process of finding and fixing errors in code.",
-  },
-  {
-    word: "syntax",
-    hint: "The rules that govern the structure of statements in a programming language.",
-  },
-];
-
-let currentWord, correctLetters, wrongGuessCount, timerInterval;
 const maxGuesses = 6;
-const gameTimeLimit = 30;
+const gameTimeLimit = 300;
+var randomWord;
+var wrongGuessCount = 0;
+var guesses;
+var timerInterval;
 
-const resetGame = () => {
+//When the document finishes loading, call the initialiseHangman function.
+$(document).ready(function () {
+    initialiseHangman();
+});
 
-  //Resetting all game variables and UI elements
-  correctLetters = [];
-  wrongGuessCount = 0;
-  hangmanImage.src = 
-  `https://media.geeksforgeeks.org
-  /wp-content/uploads/20240215173028/0.png`;
-  guessesText.innerText = `${wrongGuessCount} / ${maxGuesses}`;
-  keyboardDiv
-    .querySelectorAll("button")
-    .forEach((btn) => (btn.disabled = false));
-  wordDisplay.innerHTML = currentWord
-    .split("")
-    .map(() => `<li class="letter"></li>`)
-    .join("");
-  clearInterval(timerInterval);
-  startTimer();
-  gameModal.classList.remove("show");
-};
+function initialiseHangman() {
 
-const getRandomWord = () => {
-  const { word, hint } =
-    codingQuiz[Math.floor(Math.random() 
-    * codingQuiz.length)];
-  currentWord = word;
-  console.log(word);
-  document.querySelector(".hint-text b")
-  .innerText = hint;
-  resetGame();
-};
-
-const startTimer = () => {
-  let timeLeft = gameTimeLimit;
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    timerDisplay.innerText = `Time left:
-    ${Math.floor(timeLeft / 60)}:${
-      timeLeft % 60 < 10 ? "0" : ""
-    }${timeLeft % 60}`;
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      gameOver(false);
-    }
-  }, 1000);
-};
-
-const gameOver = (isVictory) => {
-  setTimeout(() => {
-    clearInterval(timerInterval);
-    const modalText = isVictory
-      ? ` Yeah! You found the word:`
-      : `You Loss! The correct word was:`;
-    gameModal.querySelector(
-      "p"
-    ).innerHTML = 
-    `${modalText} <b>${currentWord}</b>`;
-    gameModal.classList.add("show");
-  }, 300);
-};
-
-const initGame = (button, clickedLetter) => {
-  if (currentWord.includes(clickedLetter)) {
-    [...currentWord].forEach((letter, index) => {
-      if (letter === clickedLetter) {
-        correctLetters.push(letter);
-        wordDisplay.querySelectorAll("li")[index]
-        .innerText = letter;
-        wordDisplay.querySelectorAll("li")[index]
-        .classList.add("guessed");
-      }
+    //Add the on click handler to the play button.
+    $("#play-btn").click(function () {
+        //Hides the play button, shows the reset button and starts the game.
+        $(this).css("display", "none");
+        $("#reset-btn").css("display", "block");
+        startGame();
     });
-  } else {
-    wrongGuessCount++;
+    //Add the on click handler to the reset button.
+    $("#reset-btn").click(function () {
+        //Hides the reset button, shows the play button and resets the game.
+        $("#play-btn").css("display", "block");
+        $(this).css("display", "none");
+        resetGame();
+    });
+
+}
+
+function startGame() {
+    //Get a random word from the array of phrases.
+    randomWord = phrases[Math.floor(Math.random() * phrases.length)];
+    console.log(randomWord);
+
+    //Set the hint text to the randomly chosen words hint.
+    $("#hint-text").text("Hint: " + randomWord.hint);
+
+    guesses = "_";
+    //Loop for the length of the word, building up a string of guesses.
+    for (i = 0; i < randomWord.word.length - 1; i++) {
+        //console.log(randomWord.word.charAt(i));
+        if(randomWord.word.charAt(i+1) == " " ){
+            guesses = `${guesses} -`;
+        } else {
+            guesses = `${guesses} _`;
+        }
+    };
+    //Add the string of guesses to the page.
+    $("#guessed-letters").text(guesses);
+
+    startTimer();
+    populateLettersList();
+}
+
+//Some magic that I do not understand. ¯\_(ツ)_/¯
+function startTimer() {
+    let timeLeft = gameTimeLimit;
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        $("#count-down").text(`Time Left: ${Math.floor(timeLeft / 60)}:${timeLeft % 60 < 10 ? "0" : ""}${timeLeft % 60}`);
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            gameOver(false);
+        }
+    }, 1000);
+}
+
+//Creates the list of clickable letters.
+function populateLettersList() {
+    //Loop for each letter in the alphabet.
+    for (i = 65; i <= 90; i++) {
+        let letter = String.fromCharCode(i);
+        //Add a new list item containing a button with a letter.
+        $("#unguessed-letters").append(`<li><button id="${letter}">${letter}</button></li>`);
+
+        //When a letter button is clicked.
+        $(`#${letter}`).click(function () {
+            //Get the button's ID (which is the letter).
+            var clickedLetter = $(this).attr("id").toLowerCase();
+            gameLogic(clickedLetter);
+        });
+    }
+}
+
+//Main game logic. Is the guessed letter in the word? etc.
+function gameLogic(clickedLetter) {
+    //Turns out we need the letter in uppercase form aswell.
+    var uppercase = clickedLetter.toUpperCase();
+    //If the letter is in the random word.
+    if (randomWord.word.indexOf(clickedLetter) > -1) {
+        //Loop through the random word, checking each letter for a match against the clicked letter.
+        for (var index = randomWord.word.indexOf(clickedLetter);
+            index >= 0;
+            index = randomWord.word.indexOf(clickedLetter, index + 1)) {
+            //If a matching letter is found, replace the appropriate underscore in the guessed letters string.
+            guesses = guesses.replaceAt(index * 2, clickedLetter);
+        }
+        //Set the text.
+        $("#guessed-letters").text(guesses);
+        //Hide the letter from the list.
+        $(`#${uppercase}`).css("display", "none");
+
+        //First remove the spaces in the guessed word and then replace the - with spaces.
+        if (guesses.replace(/\s+/g, '').replace(/-/g," ") == randomWord.word) {
+            gameOver(true);
+        }
+
+    } else {
+        //If the letter isn't in the random word.
+        //Add 1 to wrong guess count.
+        wrongGuessCount++;
+        $(".guesses-count").text(`Incorrect Guesses: ${wrongGuessCount} / ${maxGuesses}`);
+
+        //Update the hangman image.
+        setImage();
+
+        //Hide the letter from the list.
+        $(`#${uppercase}`).css("display", "none");
+
+        //If they've run out of guesses, end the game.
+        if (wrongGuessCount == 6) {
+            gameOver(false);
+        }
+    }
+}
+
+//Pass in either true or false to display the different modals. true = won, false = lost
+function gameOver(winLose) {
+    //Empty the list of letters so they can't keep playing.
+    $("#unguessed-letters").empty();
+
+    //End the timer.
+    clearInterval(timerInterval);
+
+    //Get the two modals.
+    var wonModal = new bootstrap.Modal(document.getElementById('won-modal'), {
+        keyboard: false
+    });
+    var lostModal = new bootstrap.Modal(document.getElementById('lost-modal'), {
+        keyboard: false
+    });
+
+    //Display a differnet modal depending on if they won or not.
+    if (winLose == true) {
+        wonModal.show();
+        $("#model-correct").text(randomWord.word);
+    } else {
+        lostModal.show();
+        $("#model-correct2").text(randomWord.word);
+    }
+
+    //Couldn't get the close buttons on the modals to work correctly so here are two on click functions that do the same thing.
+    $("#close-button").click(function () {
+        wonModal.hide();
+    });
+    $("#close-button2").click(function () {
+        lostModal.hide();
+    });
+}
+
+//Reset everything back to how they were at the start.
+function resetGame() {
+    randomWord = "";
+    wrongGuessCount = 0;
+    clearInterval(timerInterval);
+    $(".guesses-count").text(`Incorrect Guesses: ${wrongGuessCount} / ${maxGuesses}`);
+    $("#guessed-letters").text("_ _ _");
+    $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png");
+    $("#hint-text").text("Hint: Blank");
+    $("#unguessed-letters").empty();
+}
+
+//Custom string function for replacing chars at specific indexes.
+String.prototype.replaceAt = function (index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+}
+
+//Sets the hangman image.
+function setImage() {
     if (wrongGuessCount === 0) {
-      hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173028/0.png");
     }
     if (wrongGuessCount === 1) {
-      hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173033/1.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173033/1.png");
     }
     if (wrongGuessCount === 2) {
-      hangmanImage.src = 
-      
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173038/2.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173038/2.png");
     }
     if (wrongGuessCount === 3) {
-      hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215172733/3.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215172733/3.png");
     }
     if (wrongGuessCount == 4) {
-      hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173815/4.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173815/4.png");
     }
     if (wrongGuessCount === 5) {
-      hangmanImage.src = 
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173859/5.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173859/5.png");
     }
     if (wrongGuessCount === 6) {
-      hangmanImage.src =
-      `https://media.geeksforgeeks.org/wp-content/uploads/20240215173931/6.png`;
+        $("#hangman-img").attr("src", "https://media.geeksforgeeks.org/wp-content/uploads/20240215173931/6.png");
     }
-
-    // hangmanImage.src = 
-    `images/hangman-${wrongGuessCount}.svg`;
-  }
-
-  button.disabled = true;
-  guessesText.innerText = `${wrongGuessCount} / ${maxGuesses}`;
-
-  if (wrongGuessCount === maxGuesses) 
-  return gameOver(false);
-  if (correctLetters.length === currentWord.length)
-  return gameOver(true);
-};
-
-//Creating keyboard buttons 
-//and adding event listerers
-for (let i = 97; i <= 122; i++) {
-  const button = document.createElement("button");
-  button.innerText = String.fromCharCode(i);
-  keyboardDiv.appendChild(button);
-  button.addEventListener("click", (e) =>
-    initGame(e.target, String.fromCharCode(i))
-  );
 }
-getRandomWord();
-playAgainBtn.addEventListener("click", getRandomWord);
+
+//List of phrases.
+const phrases = [
+    {
+        word: "pard",
+        hint: "friend, right on ____",
+    },
+    {
+        word: "proper job",
+        hint: "when something is done well",
+    },
+    {
+        word: "dreckly",
+        hint: "i'll do it when I'm ready",
+    },
+    {
+        word: "mizzle",
+        hint: "mist and drizzle",
+    },
+    {
+        word: "my lover",
+        hint: "what the pasty lady calls you",
+    },
+    {
+        word: "wasson",
+        hint: "what's going on",
+    },
+    {
+        word: "ansum",
+        hint: "thats a proper ______ pasty",
+    },
+    {
+        word: "right on",
+        hint: "okay",
+    },
+    {
+        word: "up north",
+        hint: "above the tamar",
+    },
+    {
+        word: "pasty",
+        hint: "breakfast, lunch and dinner",
+    },
+];
