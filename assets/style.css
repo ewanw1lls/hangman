@@ -1,0 +1,8 @@
+ul > li {
+    display: inline-block;
+    margin:5px;
+}
+
+#reset-btn {
+    display: none;
+}
